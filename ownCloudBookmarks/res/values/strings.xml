@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ownCloud Bookmarks</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_refresh">Refresh</string>
+    <string name="menu_create_bookmark">Create Bookmark</string>
+    <string name="title_activity_bookmark_list">ownCloud Bookmarks</string>
+    <string name="title_activity_tag_list">ownCloud Bookmarks</string>
+    <string name="bookmarkBig">BOOKMARK</string>
+    <string name="bookmarkSmall">small</string>
+    <string name="not_yet">Not yet implemented :-P</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="settings_text_url">ownCloud server URL:</string>
+    <string name="settings_text_url_hint">enter complete hostname</string>
+    <string name="settings_text_user">Username:</string>
+    <string name="settings_text_user_hint">enter username</string>
+    <string name="settings_text_pass">Password:</string>
+    <string name="settings_text_pass_hint">enter password</string>
+    <string name="settings_text_sort">Main list sorting:</string>
+    <string name="settings_bt_ok">Save</string>
+    <string name="title_activity_create_bookmark">Create Bookmark</string>
+    <string name="imageContent"></string>
+    <string name="newBookmarkUrl">Bookmark URL:</string>
+    <string name="newBookmarkUrlHint">new bookmark address</string>
+    <string name="newBookmarkTitle">Title:</string>
+    <string name="newBookmarkTitleHint">new bookmark title</string>
+    <string name="newBookmarkSave">Save Bookmark</string>
+    <string name="newBookmarkDesc">Description:</string>
+    <string name="newBookmarkDescHint">enter description</string>
+    <string name="newBookmarkTag">Tag:</string>
+    <string name="newBookmarkTagHint">category name</string>
+    <string name="acceptUntrustedCheck">Accept untrusted certificates</string>
+    
+</resources>

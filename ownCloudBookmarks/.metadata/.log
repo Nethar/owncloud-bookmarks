@@ -1,0 +1,30 @@
+!SESSION 2014-07-28 10:23:16.711 -----------------------------------------------
+eclipse.buildId=M20130204-1200
+java.version=1.7.0_51
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Framework arguments:  -product com.android.ide.eclipse.adt.package.adtproduct
+Command-line arguments:  -os linux -ws gtk -arch x86_64 -product com.android.ide.eclipse.adt.package.adtproduct
+
+!ENTRY org.eclipse.ui 2 2 2014-07-28 10:24:36.008
+!MESSAGE Invalid property category path: ValidationPropertiesPage (bundle: org.eclipse.wst.xml.ui, propertyPage: org.eclipse.wst.xml.ui.propertyPage.project.validation)
+!SESSION 2014-07-28 10:24:38.524 -----------------------------------------------
+eclipse.buildId=M20130204-1200
+java.version=1.7.0_51
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Framework arguments:  -product com.android.ide.eclipse.adt.package.adtproduct
+Command-line arguments:  -data /home/QBICON/mdolezal/private/Dropbox/android/owncloud-bookmarks/ownCloudBookmarks -os linux -ws gtk -arch x86_64 -product com.android.ide.eclipse.adt.package.adtproduct
+
+!ENTRY org.eclipse.ui 2 2 2014-07-28 10:25:17.160
+!MESSAGE Invalid property category path: ValidationPropertiesPage (bundle: org.eclipse.wst.xml.ui, propertyPage: org.eclipse.wst.xml.ui.propertyPage.project.validation)
+!SESSION 2014-08-11 09:59:48.592 -----------------------------------------------
+eclipse.buildId=M20130204-1200
+java.version=1.7.0_51
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Framework arguments:  -product com.android.ide.eclipse.adt.package.adtproduct
+Command-line arguments:  -data /home/QBICON/mdolezal/private/Dropbox/android/owncloud-bookmarks/ownCloudBookmarks -os linux -ws gtk -arch x86_64 -product com.android.ide.eclipse.adt.package.adtproduct
+
+!ENTRY org.eclipse.ui 2 2 2014-08-11 10:00:06.662
+!MESSAGE Invalid property category path: ValidationPropertiesPage (bundle: org.eclipse.wst.xml.ui, propertyPage: org.eclipse.wst.xml.ui.propertyPage.project.validation)

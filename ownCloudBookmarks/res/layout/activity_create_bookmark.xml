@@ -1,0 +1,86 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ScrollView1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="15dp"
+    tools:context=".CreateBookmark" >
+
+    <LinearLayout
+        android:id="@+id/LinearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textViewUrl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/newBookmarkUrl" />
+
+        <EditText
+            android:id="@+id/editTextUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/newBookmarkUrlHint"
+            android:inputType="textUri" >
+
+            <requestFocus />
+        </EditText>
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:text="@string/newBookmarkTitle" />
+
+        <EditText
+            android:id="@+id/editTextTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/newBookmarkTitleHint"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/textViewDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:text="@string/newBookmarkDesc" />
+
+        <EditText
+            android:id="@+id/editTextDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/newBookmarkDescHint"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/textViewTag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:text="@string/newBookmarkTag" />
+
+        <EditText
+            android:id="@+id/editTextTag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/newBookmarkTagHint"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:onClick="saveClick"
+            android:paddingTop="15dp"
+            android:text="@string/newBookmarkSave" />
+    </LinearLayout>
+
+</ScrollView>

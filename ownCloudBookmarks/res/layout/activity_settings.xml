@@ -1,0 +1,91 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ScrollView1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="15dp"
+    tools:context=".SettingsActivity" >
+
+    <LinearLayout
+        android:id="@+id/LinearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textViewUrl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_text_url" />
+
+        <EditText
+            android:id="@+id/editTextUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/settings_text_url_hint"
+            android:inputType="textUri" >
+
+            <requestFocus />
+        </EditText>
+
+        <CheckBox
+            android:id="@+id/trustCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/acceptUntrustedCheck" />
+
+        <TextView
+            android:id="@+id/textViewUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:text="@string/settings_text_user" />
+
+        <EditText
+            android:id="@+id/editTextUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/settings_text_user_hint"
+            android:inputType="textUri" />
+
+        <TextView
+            android:id="@+id/textViewPass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:text="@string/settings_text_pass" />
+
+        <EditText
+            android:id="@+id/editTextPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/settings_text_pass_hint"
+            android:inputType="textPassword" />
+
+        <TextView
+            android:id="@+id/textViewSort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:text="@string/settings_text_sort" />
+
+        <Spinner
+            android:id="@+id/SpinnerSort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:onClick="saveClick"
+            android:paddingTop="15dp"
+            android:text="@string/settings_bt_ok" />
+
+    </LinearLayout>
+
+</ScrollView>

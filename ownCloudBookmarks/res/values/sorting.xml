@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sorting_array">
+        <item>Alphabetic Asc, "no-tags" last</item>
+        <item>Alphabetic Desc, "no-tags" last</item>
+        <item>Alphabetic Asc, "no-tags" first</item>
+        <item>Alphabetic Desc, "no-tags" first</item>
+        </string-array>
+</resources>
