@@ -3,8 +3,6 @@ package cz.nethar.owncloudbookmarks;
 import java.util.ArrayList;
 import java.util.SortedMap;
 
-import cz.nethar.owncloudbookmarks.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;

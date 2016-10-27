@@ -40,6 +40,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,7 +53,7 @@ import android.widget.Toast;
 
 import cz.nethar.owncloudbookmarks.R;
 
-public class BookmarkList extends Activity {
+public class BookmarkList extends AppCompatActivity {
 
     public static Activity thisActivity = null;
     protected static SortedMap<String, BookmarkData> bookmarkMap = null;

@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -60,10 +61,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import cz.nethar.owncloudbookmarks.R;
 
-
-public class TagList extends Activity {
+public class TagList extends AppCompatActivity {
 
     public static final String OWNCLOUD_ADDRESS = "oc_url";
     public static final String OWNCLOUD_USERNAME = "oc_user";

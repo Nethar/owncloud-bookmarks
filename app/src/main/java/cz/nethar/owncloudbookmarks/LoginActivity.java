@@ -1,13 +1,8 @@
 package cz.nethar.owncloudbookmarks;
 
-/*import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.accounts.AccountManagerFuture;
-import android.accounts.AuthenticatorException;*/
-import cz.nethar.owncloudbookmarks.R;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -15,7 +10,7 @@ import android.view.MenuItem;
  * Activity which displays a login screen to the user, offering registration as
  * well.
  */
-public class LoginActivity extends Activity {
+public class LoginActivity extends AppCompatActivity {
 
     /**
      * The default email to populate the email field with.

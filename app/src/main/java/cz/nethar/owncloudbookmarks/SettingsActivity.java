@@ -2,6 +2,7 @@ package cz.nethar.owncloudbookmarks;
 
 import cz.nethar.owncloudbookmarks.R;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,7 +16,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends AppCompatActivity {
 
 	private String url, user, pass;
 	private boolean trust;
