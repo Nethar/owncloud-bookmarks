@@ -3,8 +3,6 @@ package cz.nethar.owncloudbookmarks;
 import java.util.ArrayList;
 import java.util.List;
 
-import cz.nethar.owncloudbookmarks.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -19,11 +17,11 @@ public class TagListAdapter extends BaseAdapter {
 	private List<View> views = null;
 	
     private Activity activity;
-    TagList.BookmarkMaps data;
+    BookmarkMaps data;
     private static LayoutInflater inflater = null;
     int count;
     
-    public TagListAdapter(Activity a, TagList.BookmarkMaps d) {
+    public TagListAdapter(Activity a, BookmarkMaps d) {
         activity = a;
         data = d;
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -31,7 +29,7 @@ public class TagListAdapter extends BaseAdapter {
         if (data == null) {
         	count = 0;
         } else {
-        	count = data.bookmarks.size() + data.noTagBookmarks.size();
+        	count = data.getTagedBookmarks().size() + data.getNoTagBookmakrs().size();
         }
         views = new ArrayList<View>(count);
         for (int i = 0; i < count; i++) {
@@ -71,9 +69,9 @@ public class TagListAdapter extends BaseAdapter {
     }
     
     public Boolean isTag(int position) {
-    	if (position < data.bookmarks.size() && (SettingsActivity.sort == TagList.ALPHA_ASC || SettingsActivity.sort == TagList.ALPHA_DESC)) {
+    	if (position < data.getTagedBookmarks().size() && (SettingsActivity.sort == TagList.ALPHA_ASC || SettingsActivity.sort == TagList.ALPHA_DESC)) {
     		return true;
-    	} else if (position >= data.noTagBookmarks.size() && (SettingsActivity.sort == TagList.ALPHA_NOTAGFIRST_ASC || SettingsActivity.sort == TagList.ALPHA_NOTAGFIRST_DESC)) {
+    	} else if (position >= data.getNoTagBookmakrs().size() && (SettingsActivity.sort == TagList.ALPHA_NOTAGFIRST_ASC || SettingsActivity.sort == TagList.ALPHA_NOTAGFIRST_DESC)) {
     		return true;
     	} else {
     		return false;
@@ -81,29 +79,29 @@ public class TagListAdapter extends BaseAdapter {
     }
     
     BookmarkData getNTData(int position) {
-    	return data.noTagBookmarks.get(getKey(position));
+    	return data.getNoTagBookmakrs().get(getKey(position));
     }
     
     public String getKey(int position) {
     	if (isTag(position)) {
 	    	if (SettingsActivity.sort == TagList.ALPHA_NOTAGFIRST_ASC || SettingsActivity.sort == TagList.ALPHA_NOTAGFIRST_DESC) {
-	    		position -= data.noTagBookmarks.size(); 
+	    		position -= data.getNoTagBookmakrs().size();
 	    	}
 	    	
 	    	if (SettingsActivity.sort == TagList.ALPHA_ASC || SettingsActivity.sort == TagList.ALPHA_NOTAGFIRST_ASC) {
-	    		return (String)data.bookmarks.keySet().toArray()[position];
+	    		return (String)data.getTagedBookmarks().keySet().toArray()[position];
 	    	} else {
-	    		return (String)data.bookmarks.keySet().toArray()[data.bookmarks.size() - 1 - position];    		
+	    		return (String)data.getTagedBookmarks().keySet().toArray()[data.getTagedBookmarks().size() - 1 - position];
 	    	}
     	} else {
 	    	if (SettingsActivity.sort == TagList.ALPHA_ASC || SettingsActivity.sort == TagList.ALPHA_DESC) {
-	    		position -= data.bookmarks.size(); 
+	    		position -= data.getTagedBookmarks().size();
 	    	}
 	    	
 	    	if (SettingsActivity.sort == TagList.ALPHA_ASC || SettingsActivity.sort == TagList.ALPHA_NOTAGFIRST_ASC) {
-	        	return (String)data.noTagBookmarks.keySet().toArray()[position];
+	        	return (String)data.getNoTagBookmakrs().keySet().toArray()[position];
 	    	} else {
-	        	return (String)data.noTagBookmarks.keySet().toArray()[data.noTagBookmarks.size() - 1 - position];
+	        	return (String)data.getNoTagBookmakrs().keySet().toArray()[data.getNoTagBookmakrs().size() - 1 - position];
 	    	}    		
     	}
     }
@@ -129,7 +127,7 @@ public class TagListAdapter extends BaseAdapter {
             TextView main = (TextView)result.findViewById(R.id.textMain);
             main.setText(key);        	
             TextView desc = (TextView)result.findViewById(R.id.textDescription);
-            desc.setText(data.noTagBookmarks.get(key).url);        	
+            desc.setText(data.getNoTagBookmakrs().get(key).url);
 
         	ImageView imageView = (ImageView)result.findViewById(R.id.imageView1);       	
            	imageView.setImageDrawable(null); // TODO favicon

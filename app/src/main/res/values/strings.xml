@@ -20,7 +20,7 @@
     <string name="settings_text_sort">Main list sorting:</string>
     <string name="settings_bt_ok">Save</string>
     <string name="title_activity_create_bookmark">Create Bookmark</string>
-    <string name="imageContent"></string>
+    <string name="imageContent">Image content</string>
     <string name="newBookmarkUrl">Bookmark URL:</string>
     <string name="newBookmarkUrlHint">new bookmark address</string>
     <string name="newBookmarkTitle">Title:</string>
@@ -31,5 +31,6 @@
     <string name="newBookmarkTag">Tag:</string>
     <string name="newBookmarkTagHint">category name</string>
     <string name="acceptUntrustedCheck">Accept untrusted certificates</string>
+    <string name="loading_bookmarks">Loading bookmarks&#8230;</string>
     
 </resources>

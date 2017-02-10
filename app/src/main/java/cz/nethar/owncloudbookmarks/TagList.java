@@ -87,31 +87,6 @@ public class TagList extends AppCompatActivity {
     private int scrollYindex = 0;
     private int scrollYexact = 0;
     
-    public class BookmarkMaps {
-    	public SortedMap<String, SortedMap<String, BookmarkData>> bookmarks;
-    	public SortedMap<String, BookmarkData> noTagBookmarks;
-    	
-    	BookmarkMaps() {
-    		bookmarks = new TreeMap<String, SortedMap<String, BookmarkData>>(String.CASE_INSENSITIVE_ORDER);
-    		noTagBookmarks = new TreeMap<String, BookmarkData>(String.CASE_INSENSITIVE_ORDER);
-    	}
-    	
-    	Boolean isEmpty() {
-    		return (bookmarks.isEmpty() && noTagBookmarks.isEmpty());
-    	}
-    	
-    	int count() {
-    		int c = noTagBookmarks.size();
-    		
-    		Object[] arr = bookmarks.keySet().toArray();
-    		for (int i = 0; i < arr.length; i++) {
-    			c += bookmarks.get((String)arr[i]).size();
-    		}
-    		
-    		return c;
-    	}
-    }
-    
     public static BookmarkMaps loadedBookmarks = null; 
     public static BookmarkMaps loadedBookmarksUpdated = null;
     
@@ -279,10 +254,10 @@ public class TagList extends AppCompatActivity {
 		}
 		
 		if (key.equalsIgnoreCase(NOTAG)) {
-			return loadedBookmarks.noTagBookmarks;
+			return loadedBookmarks.getNoTagBookmakrs();
 		} else {
-			if (loadedBookmarks.bookmarks != null) {
-				return loadedBookmarks.bookmarks.get(key);
+			if (loadedBookmarks.getTagedBookmarks() != null) {
+				return loadedBookmarks.getTagedBookmarks().get(key);
 			} else {
 				return null; // something is wrong
 			}
@@ -305,9 +280,9 @@ public class TagList extends AppCompatActivity {
 					String tag = tags.getString(j).trim();
 					if (tag.length() == 0) {
 						//tag = NOTAG;
-						maps.noTagBookmarks.put(title, new BookmarkData(id, url, added));
+						maps.getNoTagBookmakrs().put(title, new BookmarkData(id, url, added));
 					} else {
-						addBookmark(maps.bookmarks, tag, title, url, id, added);
+						addBookmark(maps.getTagedBookmarks(), tag, title, url, id, added);
 					}
 				}
 			}
@@ -345,7 +320,7 @@ public class TagList extends AppCompatActivity {
 			return;
         }
         
-        if (!forceReload && cachedBookmarks != null && cachedBookmarks.length() > 0) {
+        if (!forceReload && cachedBookmarks.length() > 0) {
         	try {
         		JSONArray array = new JSONArray(cachedBookmarks);     	
         		loadedBookmarks = loadBookmarks(array);
@@ -354,20 +329,20 @@ public class TagList extends AppCompatActivity {
         		if (task != null) {
         			task.cancel(false);
         		}
-        		task = new RetreiveBookmarkTask(url, user, password, acceptCert, true, httpsPort);
+        		task = new RetreiveBookmarkTask(url, user, password, acceptCert, true, httpsPort, this);
         		task.execute();
         	} catch (Exception e) {
         		if (task != null) {
         			task.cancel(false);
         		}
-        		task = new RetreiveBookmarkTask(url, user, password, acceptCert, false, httpsPort);
+        		task = new RetreiveBookmarkTask(url, user, password, acceptCert, false, httpsPort, this);
         		task.execute();        	
         	}
         } else {
     		if (task != null) {
     			task.cancel(false);
     		}
-            task = new RetreiveBookmarkTask(url, user, password, acceptCert, false, httpsPort);
+            task = new RetreiveBookmarkTask(url, user, password, acceptCert, false, httpsPort, this);
             task.execute();        	
         }
 	}
@@ -409,257 +384,7 @@ public class TagList extends AppCompatActivity {
 		return trustAllCerts;
 	}
    
-    class RetreiveBookmarkTask extends AsyncTask<String, Void, String> {
 
-	    private String url;
-	    private String user;
-	    private String password;
-	    private boolean acceptCert;
-	    private Exception exception;   
-	    ProgressDialog progressDialog;
-	    private Boolean background;
-	    private int httpsPort;
-
-        @Override
-        protected void onPreExecute()
-        {
-        	if (!background) {
-        		progressDialog = ProgressDialog.show(TagList.this, "", "Loading bookmarks...");
-        	}
-        }
-        
-        RetreiveBookmarkTask(String url, String user, String password, boolean acceptCert, Boolean background, int httpsPort) {
-	    	this.url = url;
-	    	this.user = user;
-	    	this.password = password;
-	    	this.acceptCert = acceptCert;
-	    	exception = null;
-	    	this.background = background;
-	    	this.httpsPort = httpsPort;
-	    }
-
-	    protected String doInBackground(String... urls) {
-    	    try {
-    	    	HttpClient httpclient;   	    	
-    	    	if (acceptCert) {
-    	    		httpclient = httpClientTrustingAllSSLCerts(httpsPort);
-    	    	} else {
-    	    		httpclient = new DefaultHttpClient();
-    	    	}
-    	    	CookieStore cookieStore = new BasicCookieStore();
-    	    	HttpContext localContext = new BasicHttpContext();
-    	        localContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
-    	    	
-    	        String requesttoken = "";
-    	    	int tries = 0;
-    	    	HttpPost httppost;
-    	    	HttpResponse response;
-    	    	BufferedReader reader;
-    	    	String result, line;
-    	    	int responseCode;
-    	    	List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-    	    	
-    	    	while (tries < 2) {
-    	    		tries++;
-	    	        nameValuePairs = new ArrayList<NameValuePair>(2);
-	        	    httppost = new HttpPost(url + "index.php");
-	    	        nameValuePairs.add(new BasicNameValuePair("user", user));
-	    	        nameValuePairs.add(new BasicNameValuePair("password", password));
-	    	        nameValuePairs.add(new BasicNameValuePair("password-clone", password));
-	    	        nameValuePairs.add(new BasicNameValuePair("timezone-offset", "1"));
-	    	        nameValuePairs.add(new BasicNameValuePair("requesttoken", requesttoken));
-	    	        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));     
-	    	        response = httpclient.execute(httppost, localContext);
-	    	        
-	    	        if (isCancelled()) {
-	    	        	return "cancelled";
-	    	        }
-	    	        
-	    	        responseCode = response.getStatusLine().getStatusCode();
-	    	        if (responseCode != 200) { 
-	    	        	return "Cannot connect to server. Check hostname and username/password (response code  " + responseCode + ").";
-	    	        }
-	    	        
-	    	        reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
-	        	    result = "";
-	    	        while ((line = reader.readLine()) != null) {
-	    	        	result += line + "\n";
-	    	        }
-	    	        
-	    	        try {
-	    	    		Document doc;
-	    	    		doc = Jsoup.parse(result);
-	    	    		
-	    	    		Elements heads = doc.select("head");
-	    	    		if (heads != null) {
-	    	    			for (Element head : heads) {
-	    	    				requesttoken = head.attr("data-requesttoken");
-	    	    			}
-	    	    		}    	        	
-	    	        } catch (Exception e) {
-	    	        	// don't worry, old version probably (or new version)
-	    	        }
-	    	        
-	    	        if (requesttoken.equals("") && tries == 1) { // first round, let's assume it is owncloud 7 or higher
-		        	    httppost = new HttpPost(url + "index.php");
-		    	        response = httpclient.execute(httppost, localContext);  	        
-		    	        responseCode = response.getStatusLine().getStatusCode();
-		    	        if (responseCode != 200) { 
-		    	        	return "Cannot connect to server. Check hostname and username/password.";
-		    	        }
-		    	        
-		    	        if (isCancelled()) {
-		    	        	return "cancelled";
-		    	        }
-		    	        
-		    	        reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
-		        	    result = "";
-		    	        while ((result = reader.readLine()) != null) {
-		    	        	String[] split = result.trim().split("=");
-		    	        	if (split.length > 0 && split[0].equals("<head data-requesttoken")) {
-		    	        		requesttoken = split[1].substring(1, split[1].length() - 2);
-		    	        	}
-		    	        	result += "";
-		    	        }	    	        	
-	    	        } else if (tries != 1) {
-    	        		break;
-	    	        }
-    	    	}
-    	        
-    	        if (requesttoken.equals("")) {
-    	        	// token not in header, old ownCloud version, read config.js
-	        	    httppost = new HttpPost(url + "index.php/core/js/config.js");
-	    	        response = httpclient.execute(httppost, localContext);  	        
-	    	        responseCode = response.getStatusLine().getStatusCode();
-	    	        if (responseCode != 200) { 
-	    	        	return "Cannot connect to server. Check hostname and username/password.";
-	    	        }
-	    	        
-	    	        if (isCancelled()) {
-	    	        	return "cancelled";
-	    	        }
-	    	        
-	    	        reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
-	        	    result = "";
-	    	        while ((result = reader.readLine()) != null) {
-	    	        	String[] split = result.split("=");
-	    	        	if (split.length > 0 && split[0].equals("var oc_requesttoken")) {
-	    	        		requesttoken = split[1].substring(1, split[1].length() - 2);
-	    	        	}
-	    	        	result += "";
-	    	        }
-    	        }
-
-    	        // save token
-    	        nameValuePairs.add(new BasicNameValuePair("requesttoken", requesttoken));
-    	        
-    	        if (isCancelled()) {
-    	        	return "cancelled";
-    	        }
-    	        
-    	        String currList = "";
-    	        int index = 0;
-    	        Boolean run = true;
-    	        JSONArray completeData = new JSONArray();
-    	        do {
-        	        if (isCancelled()) {
-        	        	return "cancelled";
-        	        }
-        	       
-	    	        httppost = new HttpPost(url + "index.php/apps/bookmarks/ajax/updateList.php?type=bookmark&requesttoken=" + requesttoken + "&page=" + Integer.toString(index));
-	    	        // this request not working with post arguments 
-	    	        //nameValuePairs = new ArrayList<NameValuePair>(2);
-	    	        //nameValuePairs.add(new BasicNameValuePair("type", "bookmark"));
-	    	        //nameValuePairs.add(new BasicNameValuePair("page", "2"));
-	    	        //httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));     
-	    	        response = httpclient.execute(httppost, localContext);  	        
-	    	        responseCode = response.getStatusLine().getStatusCode();
-	    	        if (responseCode != 200) { 
-	    	        	return "Cannot update bookmarks list.";
-	    	        }  	        
-	    	        reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
-	    	        currList = "";
-	    	        while ((line = reader.readLine()) != null) {
-	    	        	currList += line + "\n";
-	    	        }
-	    	        index++;
-	    	        
-	    	        try {
-	    	        	JSONObject jObject = new JSONObject(currList);
-	    	        	JSONArray arr = jObject.getJSONArray("data");
-	    	        	if (arr == null || arr.length() == 0) {
-	    	        		run = false; // last iteration reached
-	    	        	} else {
-	    	        		for (int i = 0; i < arr.length(); i++) {
-	    	        			JSONObject field = arr.getJSONObject(i);
-		    	        		completeData.put(field);
-	    	        		}
-	    	        	}
-	    	        } catch (Exception e) {
-	    	        	return "Cannot parse JSON answer (" + Integer.toString(index) + "). Wrong username/password?";	    	        	
-	    	        }
-	    	        
-    	        } while (run);
-    	           	        
-    	        if (isCancelled()) {
-    	        	return "cancelled";
-    	        }
-    	        
-    	        loadedBookmarksUpdated = loadBookmarks(completeData);
-    	        
-    	        // NEW VERSION OF BOOKMARKS LOADED
-    	        SharedPreferences sp = getSharedPreferences(PREF_KEY, MODE_PRIVATE);      
-    	        Editor editor = sp.edit();   
-    	        editor.putString(OWNCLOUD_CACHED, completeData.toString());
-    	        editor.commit();
-
-    	        if (loadedBookmarksUpdated.isEmpty()) {
-    	        	return "No bookmarks received. Do you have any? File export.php not fixed?";
-    	        }
-    	        
-    	        if (loadedBookmarksUpdated.count() == 1) {
-    	        	return "Only one bookmark received. Wrong login data?";    	        	
-    	        }
-    	        
-    	    } catch (Exception e) {
-    	    	exception = e;
-    	    	loadedBookmarksUpdated = null;
-    	    }
-    	    
-    	    return "";
-	    }
-	    
-	    protected void onCancelled(String errorMessage) {
-	    	if (!background && progressDialog != null) {
-	    		progressDialog.dismiss();
-	    		progressDialog = null;
-	    	}	    	
-	    	//Toast.makeText(TagList.this, errorMessage, Toast.LENGTH_SHORT).show();
-	    }
-
-	    protected void onPostExecute(String errorMessage) {
-	    	if (!background && progressDialog != null) {
-	    		progressDialog.dismiss();
-	    		progressDialog = null;
-	    	}
-	    	
-	    	if (exception != null) {
-	    		if (exception.getClass() == SSLPeerUnverifiedException.class) {
-	    			Toast.makeText(TagList.this, exception.getMessage() + " (import certificate to your Android trusted credentials storage or accept it in app settings)", Toast.LENGTH_LONG).show();	    			
-	    		} else {
-	    			Toast.makeText(TagList.this, exception.getMessage() + " " + exception.getClass().toString(), Toast.LENGTH_LONG).show();
-	    		}
-	    	} else if (errorMessage != null && errorMessage.length() > 0) {
-    			Toast.makeText(TagList.this, errorMessage, Toast.LENGTH_LONG).show();	    		
-	    	} else {
-	    		if (!background) {
-	    			loadedBookmarks = loadedBookmarksUpdated;
-	    			loadedBookmarksUpdated = null;
-	    			fillListView();
-	    		}
-	    	}
-	    }
-	 }
 	
 	public class DeleteBookmark extends AsyncTask<String, Void, String> {
 		String id;
